@@ -1,5 +1,5 @@
 <?php
-class Product {
+class Product implements JsonSerializable {
     private int $productId;
     private string $productCode;
     private string $productName;
@@ -58,6 +58,10 @@ class Product {
 
     public function setStockUnits(int $stockUnits): void {
         $this->stockUnits = $stockUnits;
+    }
+
+    public function jsonSerialize(): mixed {
+        
     }
 }
 

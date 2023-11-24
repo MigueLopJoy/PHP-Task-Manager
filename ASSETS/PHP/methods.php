@@ -1,4 +1,23 @@
 <?php
+    function renderProducts() {
+        $productsData = file_get_contents("./ASSETS/JSON/inventory.json");
+        $products = json_decode($productsData);
+
+        foreach($products as $product) {
+            echo 
+                "
+                <article>
+                    <h2>" .$product->name."</h2>
+                    <p><strong>Product Code:</strong>" .$product->product_code."</p>
+                    <p><strong>Category:</strong>" .$product->category."</p>
+                    <p><strong>Stock Units:</strong>" .$product->stock_units."</p>
+                    <p><strong>Price:</strong>" .$product->price."</p>
+                    <a href='?p=".base64_encode(json_encode($product))."'><button>Add to cart</button></a>
+                </article>
+                ";
+        }
+    }
+
     function renderCart() {
         echo  "
             <aside>
@@ -8,10 +27,9 @@
                         <tr>
                             <th>Product Name</th>
                             <th>Product Code</th>
-                            <th>Price</th>
                             <th>Category</th>
-                            <th>Tech Feature</th>
-                            <th>Stock Units</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
         ";
@@ -22,16 +40,22 @@
                 <tr>
                 <td>{$product->getProductName()}</td>
                 <td>{$product->getProductCode()}</td>
-                <td>{$product->getProductPrice()}</td>
                 <td>{$product->getProductCategory()}</td>
-                <td>{$product->getStockUnits()}</td>
+                <td>{$product->getProductPrice()}</td>
             </tr>
         ";
         }
-
-    echo "</table>";
-    echo "<a href='?page=customerData'><button>Submit Order</button></a>";
-    echo "</aside>";
+    
+    echo    
+        "
+                <tr>
+                    <th colspan='3'>Total</th>
+                    <td>{$_SESSION['cart']->sumTotal()}</td>
+                </tr>
+            </table>
+            <a href='?page=customerData'><button>Process Order</button></a>
+        </aside>
+        ";
     }
 
     function createCartIfNotExist() {
@@ -41,7 +65,7 @@
     }
 
     function addProductToCart() {
-        if (!isset($GET['p'])) {
+        if (isset($_GET['p'])) {
             $product = json_decode(base64_decode($_GET['p']));
             $_SESSION['cart']->addProduct(
                 new Product(

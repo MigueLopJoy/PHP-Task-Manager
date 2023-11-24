@@ -7,8 +7,7 @@ abstract class Customer {
     private string $email;
     private string $phoneNumber;
 
-    public function __construct(int $customerId, string $firstName, string $surName, string $email, string $phoneNumber) {
-        $this->customerId = $customerId;
+    public function __construct(string $firstName, string $surName, string $email, string $phoneNumber) {
         $this->firstName = $firstName;
         $this->surName = $surName;
         $this->email = $email;

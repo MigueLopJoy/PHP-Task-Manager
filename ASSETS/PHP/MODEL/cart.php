@@ -1,6 +1,5 @@
-<?php
-
-class Cart {
+<?php    
+class Cart implements JsonSerializable{
     private int $cartId;
     private array $products;
     private Customer $customer;
@@ -56,10 +55,19 @@ class Cart {
     }
 
     public function sumTotal(): float {
+        $this->total = 0;
         foreach($this->products as $product) {
-            $total += $product->productPrice;
+            $this->total += $product->getProductPrice();
         }
-        return $total;
+        return $this->total;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            $this->products,
+            $this->customer,
+            $this->total     
+        ]
     }
 }
 ?>
