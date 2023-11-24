@@ -1,6 +1,6 @@
 <?php
 
-abstract class Customer {
+class Customer implements JsonSerializable {
     private int $customerId;
     private string $firstName;
     private string $surName;
@@ -48,6 +48,15 @@ abstract class Customer {
 
     public function setPhoneNumber(string $phoneNumber): void {
         $this->phoneNumber = $phoneNumber;
+    }
+
+    public function jsonSerialize(): mixed {
+        return [
+            $this->firstName,
+            $this->surName,
+            $this->email,         
+            $this->phoneNumber
+        ];
     }
 }
 

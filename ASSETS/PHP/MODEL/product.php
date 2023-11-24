@@ -61,7 +61,13 @@ class Product implements JsonSerializable {
     }
 
     public function jsonSerialize(): mixed {
-        
+        return [
+            $this->productCode, 
+            $this->productName, 
+            $this->productPrice,
+            $this->productCategory,
+            $this->stockUnits
+        ];
     }
 }
 

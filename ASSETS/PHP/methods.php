@@ -79,4 +79,34 @@
             );
         }
     }
+
+    function renderCustomerForm() {
+        echo "
+        <h4>Customer Data</h4>
+        <form method='POST' action='?page=submitOrder'>
+            <input type='text' name='customer_name' placeholder='Introduce Name'>
+            <input type='text' name='customer_surname' placeholder='Introduce Surname'>
+            <input type='email' name='customer_email' placeholder='Introduce Email'>
+            <input type='text' name='customer_phone_number' placeholder='Introduce Phone Number'>
+            <input type='submit' value='Submit Order'>
+        </form>
+        ";
+    }
+
+    function submitOrder() {
+        echo "<h4>Your order has been submited successfully</h4>";
+        $_SESSION['cart']->addCustomer(
+            new Customer(
+                $_POST['customer_name'],
+                $_POST['customer_surname'],
+                $_POST['customer_email'],
+                $_POST['customer_phone_number']
+            )
+        );
+        $order = json_encode($_SESSION['cart'], JSON_PRETTY_PRINT);
+        file_put_contents("./ASSETS/JSON/ORDERS/".date('U').".json", $order);
+        session_destroy();     
+        echo "<p>Redirigiendo...</p>";
+        header("refresh:5; url=?");
+    }
 ?>

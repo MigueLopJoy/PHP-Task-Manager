@@ -46,7 +46,7 @@ class Cart implements JsonSerializable{
         array_push($this->products, $product);
     }
 
-    public function addCustomer(Customer $customer): Customer {
+    public function addCustomer(Customer $customer): void {
         $this->customer = $customer;
     }
 
@@ -67,7 +67,7 @@ class Cart implements JsonSerializable{
             $this->products,
             $this->customer,
             $this->total     
-        ]
+        ];
     }
 }
 ?>
