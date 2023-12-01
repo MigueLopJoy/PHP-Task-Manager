@@ -1,0 +1,34 @@
+[
+    {
+        "userId": 1,
+        "firstName": "Miguel",
+        "surName": "L\u00f3pez",
+        "email": "mlr-97@gmail.com",
+        "password": "1234",
+        "tasks": []
+    },
+    {
+        "userId": 2,
+        "firstName": "Miguel",
+        "surName": "L\u00f3pez",
+        "email": "mlr@mail.com",
+        "password": "1234",
+        "tasks": [
+            {
+                "taskId": 1,
+                "title": "Hacer la cena",
+                "description": "Hacer la cena para ma\u00f1ana",
+                "completed": false,
+                "deadLine": "2023-11-29"
+            }
+        ]
+    },
+    {
+        "userId": 3,
+        "firstName": "Juan",
+        "surName": "G\u00f3mez",
+        "email": "jg@mail.com",
+        "password": "1234",
+        "tasks": []
+    }
+]

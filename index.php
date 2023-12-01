@@ -1,27 +1,41 @@
 <?php
-    include "./ASSETS/PHP/MODEL/product.php";
-    include "./ASSETS/PHP/MODEL/customer.php";
-    include "./ASSETS/PHP/MODEL/cart.php";
-    include "./ASSETS/PHP/methods.php";
+    include "./ASSETS/PHP/MODEL/user.php";
+    include "./ASSETS/PHP/MODEL/task.php";
+    include "./ASSETS/PHP/authentication.php";
+    include "./ASSETS/PHP/tasks-handler.php";
+
+    include "./ASSETS/PHP/INTERFACES/header.php";
 
     session_start();
-    createCartIfNotExist();
-    addProductToCart();
 
-    include "./ASSETS/PHP/LAYERS/header.php";
+    if (!isset($_SESSION['logged-user'])) {
+        renderAuthenticationLayer();
 
-    if (!isset($_GET['page'])) {
-        renderProducts();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_POST['register'])) {
+                registerUser();
+            } else if (isset($_POST['login'])) {
+                authenticateUser();
+            }
+        }    
     } else {
-        if ($_GET['page'] == "customerData") {
-            renderCustomerForm();
-        } else if ($_GET['page'] == "submitOrder") {
-            submitOrder();
+        if (isset($_GET['task']) && $_GET['task'] == "create-task") {
+            createNewTask();
         }
+
+        if (isset($_GET['task']) && $_GET['task'] == "delete-task") {
+            deleteTask();
+        }
+
+        if (isset($_GET['logout'])) {
+            session_destroy();
+            header("Location: ?");
+            exit();
+        }
+
+        renderProgramLayer();
     }
 
-    renderCart();
-
-    include "./ASSETS/PHP/LAYERS/footer.php";
+    include "./ASSETS/PHP/INTERFACES/footer.php";
 
 ?>  
